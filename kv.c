@@ -10,9 +10,12 @@ int main(int argc, char** argvs)
     */
    if(disk = fopen(argvs[0],"r+") < 0)
    {
-
+       printf("Cannot open disk file\n");
    }
-
+    // load Table
+    metadata.curOffset = sizeof(indexTable);
+    fread(&indexTable, 1, metadata.curOffset, disk);
+   
    char cmdline[MAXLINE];
    while(1)
    {
@@ -21,6 +24,7 @@ int main(int argc, char** argvs)
 	    if (feof(stdin)) { /* End of file (ctrl-d) */
 	        fflush(stdout);
             // TODO : save TABLE!!!
+            saveTable();
             fclose(argvs[0]);
 	        exit(0);
         }
@@ -99,4 +103,8 @@ void executeApi(char **arguments)
 
 }
 
-
+int saveTable()
+{   // save HASHTABLE in the desired location.
+    fseek(disk, 0, SEEK_SET);
+    fwrite(&indexTable, 1, sizeof(indexTable), disk);
+}

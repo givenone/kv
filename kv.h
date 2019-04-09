@@ -40,6 +40,8 @@ static FILE *disk;
 static META metadata;
 static INDEX indexTable;
 
+
+
 // hashtable.c
 void createTable();
 int get(REQUEST *request);
